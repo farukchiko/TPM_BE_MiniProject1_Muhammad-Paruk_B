@@ -3,152 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi Hari Unik Dunia</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f7f9fc;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .header {
-            background: linear-gradient(90deg, #1e3c72, #2a5298);
-            color: #fff;
-            padding: 40px 0;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 600;
-        }
-
-        .header p {
-            font-size: 1.2rem;
-            margin-top: 10px;
-        }
-
-        .card {
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .badge-custom {
-            background-color: #27ae60;
-            color: #fff;
-        }
-
-        .form-container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-container h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        .form-control {
-            border: 1px solid #ddd;
-            border-radius: 0.5rem;
-        }
-
-        .btn-primary {
-            background-color: #2c3e50;
-            border: none;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background-color: #34495e;
-        }
-
-        .footer {
-            background-color: #2c3e50;
-            color: #fff;
-            text-align: center;
-            padding: 15px 0;
-        }
-    </style>
+    <title>Manajemen Event</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-gray-100 font-sans antialiased">
 
-    <header class="header">
-        <h1>Selamat datang di Aplikasi Hari Unik Dunia</h1>
-        <p>Jelajahi dan tambahkan perayaan unik dari seluruh dunia!</p>
-    </header>
+    <div class="max-w-4xl mx-auto bg-white p-8 mt-10 rounded-lg shadow-xl">
+        <!-- Title Form -->
+        <h1 class="text-3xl font-semibold text-center text-blue-600 mb-6">Tambah Event Baru</h1>
 
-    <div class="container my-5">
-        <div class="row">
-            <div class="col-md-8">
-                <h2 class="mb-4">Daftar Hari Unik</h2>
-                @if($events->isEmpty())
-                    <p class="text-center text-muted fst-italic">Tidak ada event yang tersedia. Silakan tambahkan dengan formulir di sebelah kanan!</p>
-                @else
-                    <div class="row">
-                        @foreach($events as $event)
-                            <div class="col-md-6 mb-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ $event->name }}</h5>
-                                        <h6 class="card-subtitle mb-2 text-muted">{{ $event->date }}</h6>
-                                        <p class="card-text">{{ $event->description }}</p>
-                                        <span class="badge badge-custom">{{ $event->country }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
+        <!-- Formulir Tambah Event -->
+        <form action="{{ route('events.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+            @csrf
+
+            <div class="flex flex-col">
+                <label for="name" class="text-lg font-medium text-gray-700">Nama Event:</label>
+                <input type="text" id="name" name="name" class="p-3 border border-gray-300 rounded-md" required>
+            </div>
+
+            <div class="flex flex-col">
+                <label for="date" class="text-lg font-medium text-gray-700">Tanggal:</label>
+                <input type="date" id="date" name="date" class="p-3 border border-gray-300 rounded-md" required>
+            </div>
+
+            <div class="flex flex-col">
+                <label for="description" class="text-lg font-medium text-gray-700">Deskripsi:</label>
+                <textarea id="description" name="description" class="p-3 border border-gray-300 rounded-md" required></textarea>
+            </div>
+
+            <div class="flex flex-col">
+                <label for="country" class="text-lg font-medium text-gray-700">Negara:</label>
+                <input type="text" id="country" name="country" class="p-3 border border-gray-300 rounded-md" required>
+            </div>
+
+            <div class="flex flex-col">
+                <label for="image" class="text-lg font-medium text-gray-700">Gambar:</label>
+                <input type="file" id="image" name="image" class="p-3 border border-gray-300 rounded-md" required>
+            </div>
+
+            <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700 transition">Tambah Event</button>
+        </form>
+    </div>
+
+    <!-- Daftar Event -->
+    <div class="max-w-4xl mx-auto mt-10">
+        <h2 class="text-2xl font-semibold text-center text-blue-600 mb-6">Daftar Event</h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            @foreach($events as $event)
+                <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition">
+                    <h3 class="text-xl font-semibold">{{ $event->name }}</h3>
+                    <p class="text-gray-700">{{ $event->description }}</p>
+                    <p class="text-sm text-gray-500">{{ $event->country }} - {{ $event->date }}</p>
+
+                    @if($event->image)
+                        <img src="{{ asset('storage/' . $event->image) }}" alt="Gambar {{ $event->name }}" class="mt-4 w-full h-48 object-cover rounded-md">
+                    @endif
+
+                    <div class="mt-4 flex justify-between items-center">
+                        <a href="{{ route('events.edit', $event->id) }}" class="text-blue-600 hover:text-blue-800">Edit</a>
+
+                        <form action="{{ route('events.destroy', $event->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-600 hover:text-red-800">Hapus</button>
+                        </form>
                     </div>
-                @endif
-            </div>
-
-            <div class="col-md-4">
-                <div class="form-container">
-                    <h2>Tambah Event Baru</h2>
-                    <form action="/events" method="POST">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Nama Event</label>
-                            <input type="text" name="name" id="name" class="form-control" placeholder="Misalnya: Hari Kucing Internasional" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="date" class="form-label">Tanggal Event</label>
-                            <input type="date" name="date" id="date" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Deskripsi</label>
-                            <textarea name="description" id="description" rows="3" class="form-control" placeholder="Tulis deskripsi singkat tentang event ini..." required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="country" class="form-label">Negara</label>
-                            <input type="text" name="country" id="country" class="form-control" placeholder="Misalnya: Global" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Tambah Event</button>
-                    </form>
                 </div>
-            </div>
+            @endforeach
         </div>
     </div>
 
-    <footer class="footer">
-        <p>&copy; 2024 Aplikasi Hari Unik Dunia. All rights reserved.</p>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
